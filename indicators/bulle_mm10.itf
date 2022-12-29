@@ -1,0 +1,12 @@
+avgMobile = 10
+
+if close > Average[avgMobile](close) and close[1] > Average[avgMobile](close)[1] then
+if low <= Average[avgMobile] * 1.005 then
+DRAWPOINT(barindex, Average[avgMobile], 3) COLOURED(102,255,255, 150)
+endif
+endif
+if close < Average[avgMobile](close) and close[1] > Average[avgMobile](close)[1] then
+x = AverageTrueRange[14](close) / Average[avgMobile]
+DRAWPOINT(barindex, Average[avgMobile] + x, 3) COLOURED(255,0,0, 150)
+endif
+return

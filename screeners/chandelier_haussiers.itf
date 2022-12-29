@@ -1,0 +1,5 @@
+haussier = 0
+if Average[20](Volume) > 20000 and close > 1 then
+haussier = CALL "Chandelier haussier"
+endif
+SCREENER[haussier = 1](volume)

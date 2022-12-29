@@ -1,0 +1,14 @@
+rank = 0
+if Average[20](Volume) > 20000 then
+
+if close > Average[200](close) then
+rank = rank + 4
+endif
+if close > Average[50](close) then
+rank = rank + 2
+endif
+if close > Average[10](close) then
+rank = rank + 1
+endif
+endif
+SCREENER(rank as "rank")

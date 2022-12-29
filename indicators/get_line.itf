@@ -1,0 +1,81 @@
+// https://www.alloprof.qc.ca/fr/eleves/bv/mathematiques/l-equation-d-une-droite-a-partir-de-coordonnees-m1319
+// return highest value with index and m, b
+// don't take in account the last day
+// lineType= 1 high, 0 low up , 2 low down
+if lineType = 1 then
+firstHigh = high[1]
+firstIndex = barindex[1]
+$tabHigh[0] = 0
+$tabIndex[0] = 0
+for i = 1 to backTest do
+if high[i] > firstHigh then
+$tabHigh[2] = $tabHigh[1]
+$tabHigh[1] = $tabHigh[0]
+$tabHigh[0] = firstHigh
+$tabIndex[2] = $tabIndex[1]
+$tabIndex[1] = $tabIndex[0]
+$tabIndex[0] = firstIndex
+firstHigh = high[i]
+firstIndex = barindex[i]
+endif
+next
+if $tabHigh[whichSecondPoint] > 0 then
+// math line calculation
+m = ($tabHigh[whichSecondPoint] - firstHigh) / ($tabIndex[whichSecondPoint] - firstIndex)
+// y = mx + b
+b = $tabHigh[whichSecondPoint] - (m * $tabIndex[whichSecondPoint])
+else
+firstIndex = 0
+endif
+elsif lineType = 0 then
+firstHigh = low[1]
+firstIndex = barindex[1]
+$tabHigh[0] = 0
+$tabIndex[0] = 0
+for i = 1 to backTest do
+if low[i] < firstHigh then
+$tabHigh[2] = $tabHigh[1]
+$tabHigh[1] = $tabHigh[0]
+$tabHigh[0] = firstHigh
+$tabIndex[2] = $tabIndex[1]
+$tabIndex[1] = $tabIndex[0]
+$tabIndex[0] = firstIndex
+firstHigh = low[i]
+firstIndex = barindex[i]
+endif
+next
+if $tabHigh[whichSecondPoint] > 0 then
+// math line calculation
+m = ($tabHigh[whichSecondPoint] - firstHigh) / ($tabIndex[whichSecondPoint] - firstIndex)
+// y = mx + b
+b = $tabHigh[whichSecondPoint] - (m * $tabIndex[whichSecondPoint])
+else
+firstIndex = 0
+endif
+elsif lineType = 2 then
+firstHigh = low[1]
+firstIndex = barindex[1]
+$tabHigh[0] = 0
+$tabIndex[0] = 0
+for i = 1 to backTest do
+if low[i] > firstHigh then
+$tabHigh[2] = $tabHigh[1]
+$tabHigh[1] = $tabHigh[0]
+$tabHigh[0] = firstHigh
+$tabIndex[2] = $tabIndex[1]
+$tabIndex[1] = $tabIndex[0]
+$tabIndex[0] = firstIndex
+firstHigh = low[i]
+firstIndex = barindex[i]
+endif
+next
+if $tabHigh[whichSecondPoint] > 0 then
+// math line calculation
+m = ($tabHigh[whichSecondPoint] - firstHigh) / ($tabIndex[whichSecondPoint] - firstIndex)
+// y = mx + b
+b = $tabHigh[whichSecondPoint] - (m * $tabIndex[whichSecondPoint])
+else
+firstIndex = 0
+endif
+endif
+return firstIndex, firstHigh, m, b

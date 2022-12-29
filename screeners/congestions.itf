@@ -1,0 +1,8 @@
+TIMEFRAME(daily)
+
+rem once timee = CurrentMinute*60+CurrentSecond
+if Average[20](Volume) > 20000 then
+myBiseaux = CALL "Biseaux"[20]
+timee2 = CurrentMinute*60+CurrentSecond
+endif
+SCREENER[myBiseaux = 2](timee2 as "close" )

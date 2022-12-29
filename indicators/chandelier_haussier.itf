@@ -1,0 +1,6 @@
+ret = 0
+if close > high[1] and open < low[1] then
+ret = 1
+DRAWARROWDOWN(barindex, close + 0.5 * AverageTrueRange[14](close))
+endif
+return ret

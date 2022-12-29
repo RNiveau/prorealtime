@@ -1,0 +1,19 @@
+// Définition des paramètres du code
+DEFPARAM CumulateOrders = True // Cumul des positions activé
+
+// Conditions pour ouvrir une position acheteuse
+indicator1 = CALL "Chandelier haussier"
+if indicator1 = 1 then
+orderPrice = close + 0.1
+stopPrice = low - 0.1
+indexChandelier = barIndex
+endif
+if indexChandelier + 2 < barIndex then
+orderPrice = 0
+endif
+IF orderPrice > 0 and not LONGONMARKET then
+BUY 1000 CASH AT orderPrice stop
+// Stops et objectifs
+SET STOP PRICE stopPrice
+SET TARGET %PROFIT 5
+ENDIF

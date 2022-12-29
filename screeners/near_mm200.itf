@@ -1,0 +1,14 @@
+timeframe(daily)
+
+volumeOk = Average[20](volume) > 50000
+
+mm200 = Average[200](close)
+atr = AverageTrueRange[14](close)
+price1 = close
+
+// near mm200
+condition = mm200 >= price1 - atr and mm200 <= price1 + atr
+
+
+
+SCREENER[condition and volumeOk] ((close/DClose(1)-1)*100 AS "% Veille")

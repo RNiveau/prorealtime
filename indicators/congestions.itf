@@ -1,0 +1,90 @@
+// todo
+// https://www.alloprof.qc.ca/fr/eleves/bv/mathematiques/l-equation-d-une-droite-a-partir-de-coordonnees-m1319
+toleration = 1.002
+tolerationLow = 0.998
+nbrBar = 0
+if IsLastBarUpdate = 1 then
+// resistance line
+for backTest = Duration DOWNTO 5 do
+// all points are bellow the line ?
+// test several second highest
+lineOk = 0
+for whichHigh = 0 to 2 do
+x, y, m, b = CALL "get line"[backTest, whichHigh, 1]
+// drop too small line
+if x = 0 or barIndex - x < 3 then
+lineOk = 0
+continue
+endif
+lineOk = 1
+for tmpX = x to barIndex - 1 do
+y2 = m * tmpX + b
+if y2 * toleration < high[barIndex - tmpX] then
+lineOk = 0
+break
+endif
+next
+if lineOk = 1 then
+break
+endif
+next
+if lineOk = 1 then
+break
+endif
+next
+if lineOk = 1 then
+nbrBar = nbrBar + 1
+y2 = m * (barIndex + 10) + b
+DRAWSEGMENT(x, y, barIndex + 10, y2) COLOURED(255,0,0)
+for i = x to barIndex do
+y2 = m * i + b
+if y2 * tolerationLow < high[barIndex - i] and y2 * toleration > high[barIndex - i] then
+DRAWARROWDOWN(i, high[barIndex - i] * 1.01) COLOURED(250,0,0)
+endif
+next
+endif
+// up support
+for backTest = Duration DOWNTO 5 do
+// all points are bellow the line ?
+// test several second highest
+lineOk = 0
+for whichHigh = 0 to 2 do
+x, y, m, b = CALL "get line"[backTest, whichHigh, 0]
+// drop too small line
+if x = 0 or barIndex - x < 3 then
+lineOk = 0
+continue
+endif
+lineOk = 1
+for tmpX = x to barIndex - 1 do
+y2 = m * tmpX + b
+if y2 * tolerationLow > low[barIndex - tmpX] or close[barIndex - tmpX] - 2 * AverageTrueRange[14](close)[barIndex - tmpX] > y2 then
+lineOk = 0
+break
+endif
+next
+if lineOk = 1 then
+break
+endif
+next
+if lineOk = 1 then
+break
+endif
+next
+if lineOk = 1 then
+nbrBar = nbrBar + 1
+y2 = m * (barIndex + 10) + b
+DRAWSEGMENT(x, y, barIndex + 10, y2) COLOURED(255,0,0)
+for i = x to barIndex do
+y2 = m * i + b
+if y2 * tolerationLow < low[barIndex - i] and y2 * toleration > low[barIndex - i] then
+DRAWARROWUP(i, low[barIndex - i] * 0.995) COLOURED(250,0,0)
+endif
+next
+endif
+
+// down support
+
+
+endif
+return nbrBar

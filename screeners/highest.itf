@@ -1,0 +1,23 @@
+// global vars
+priceMini = close > 0.5
+atr = AverageTrueRange[14](close)
+volumeMini = Average[20](Volume) > 20000
+
+highestPrice20 = highest[20]
+highestPrice50 = highest[50]
+highestPrice200 = highest[200]
+
+conditionHighestPrice = highestPrice20 < close + atr
+
+weight = 0
+if highestPrice20 < close + atr then
+weight = weight + 1
+endif
+if highestPrice50 < close + atr then
+weight = weight + 2
+endif
+if highestPrice200 < close + atr then
+weight = weight + 3
+endif
+
+SCREENER[conditionHighestPrice and priceMini and volumeMini] sort by weight as "close"
